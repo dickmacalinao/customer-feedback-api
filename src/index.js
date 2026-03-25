@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const userRoutes = require("./routes/users");
 const categoryRoutes = require("./routes/categories");
+const questionRoutes = require("./routes/questions");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -39,6 +40,8 @@ app.get("/health", (req, res) => {
 app.use("/api/users", userRoutes);
 
 app.use("/api/categories", categoryRoutes);
+
+app.use("/api/questions", questionRoutes);
 
 
 // ─── 404 Handler ──────────────────────────────────────────────────────────────
