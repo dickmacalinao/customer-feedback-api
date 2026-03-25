@@ -8,7 +8,7 @@ const getAllQuestions = (req, res) => {
   let result = [];
 
   categories.forEach((c) => {
-    if (String(category) === String(c.id) || !category) {
+    if (parseInt(category) === c.id || !category) {
       c.questions.forEach((q) => {
         result = [...result, q];
       })
