@@ -5,6 +5,9 @@ const userRoutes = require("./routes/users");
 const categoryRoutes = require("./routes/categories");
 const questionRoutes = require("./routes/questions");
 
+// Imitialize database pool
+const { postgresDb } = require('./config/postgres.js');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 

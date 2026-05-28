@@ -1,8 +1,11 @@
-const { categories } = require( "../data/categories");
+const { getCategories } = require( "../services/categories");
 
 // GET /api/categories
 const getAllCategories = (req, res) => {
-  res.json({ success: true, count: categories.length, data: categories });
+  getCategories().then((data) => {
+    console.log('data', data);
+    res.json({ success: true, count: data.length, data: data });
+  })
 };
 
 // GET /api/categories/:id
