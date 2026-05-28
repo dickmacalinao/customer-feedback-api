@@ -37,6 +37,15 @@ app.get("/health", (req, res) => {
   });
 });
 
+// Sample Logging
+const myLogger = (req, res, next) => {
+  console.log('Request URL:', req.originalUrl);
+  console.log('Request Type:', req.method);
+  next();
+};
+
+app.use(myLogger);
+
 app.use("/api/users", userRoutes);
 
 app.use("/api/categories", categoryRoutes);
