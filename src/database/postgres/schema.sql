@@ -9,10 +9,18 @@ CREATE TABLE customer (
 CREATE TABLE category (
   id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   customer_id INT REFERENCES customer(id) NOT NULL,
-  order_seq INT  NOT NULL,
+  order_seq INT NOT NULL,
   category TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
+--type column should be from type reference 
+CREATE TABLE question (
+  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  category_id INT REFERENCES category(id) NOT NULL,
+  type TEXT NOT NULL, 
+  question TEXT NOT NULL,
+  default_value TEXT,
+  validations TEXT
+);
