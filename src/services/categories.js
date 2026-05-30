@@ -1,20 +1,3 @@
-/*
-const { DB_URL } = require( "./dbX");
-
-const pgp = require('pg-promise')();
-const db = pgp(DB_URL);
-
-const getAllCategories = () => {
-
-  console.log('DB_URL', DB_URL);
-
-  db.one('SELECT $1 AS value', 1)
-    .then((data) => {
-      return data.value;      
-    })
-};
-*/
-
 import { postgresDb } from '../config/postgres.js'
 
 export async function getCategories() {
@@ -23,7 +6,8 @@ export async function getCategories() {
       "(" +
         "SELECT JSON_AGG(questions_inner) AS questions FROM " +
         "( " +
-          "SELECT question.id, question.type, question.question, question.default_value, question.validations " +
+          "SELECT question.id, question.type, question.question, question.default_value, " + 
+            "string_to_array(question.validations, ',') as validations " +
           "FROM question " +
           "WHERE question.category_id = category.id " +
           "ORDER BY question.id " +
