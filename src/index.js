@@ -4,6 +4,7 @@ const cors = require("cors");
 // const userRoutes = require("./routes/users");
 const feedbackRoutes = require("./routes/feedback.js");
 // const questionRoutes = require("./routes/questions");
+const apiDocsRouter = require("./routes/apiDocs.js");
 
 // Imitialize database pool
 const { postgresDb } = require('./config/postgres.js');
@@ -16,7 +17,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Sample Logging
+const myLogger = (req, res, next) => {
+  // console.log('Request URL:', req.originalUrl);
+  // console.log('Request Type:', req.method);
+  next();
+};
+
+app.use(myLogger);
+
 // ─── Routes ───────────────────────────────────────────────────────────────────
+/*
 app.get("/", (req, res) => {
   res.json({
     message: "🚀 Express API is running!",
@@ -31,6 +42,7 @@ app.get("/", (req, res) => {
     },
   });
 });
+*/
 
 app.get("/health", (req, res) => {
   res.json({
@@ -40,20 +52,13 @@ app.get("/health", (req, res) => {
   });
 });
 
-// Sample Logging
-const myLogger = (req, res, next) => {
-  // console.log('Request URL:', req.originalUrl);
-  // console.log('Request Type:', req.method);
-  next();
-};
-
-app.use(myLogger);
-
 // app.use("/api/users", userRoutes);
 
 app.use("/api", feedbackRoutes);
 
 // app.use("/api/questions", questionRoutes);
+
+app.use("/api-docs", apiDocsRouter);
 
 
 // ─── 404 Handler ──────────────────────────────────────────────────────────────
