@@ -2,6 +2,7 @@ CREATE TABLE customer (
   id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   name TEXT NOT NULL,
   slug TEXT NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT true,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -11,6 +12,7 @@ CREATE TABLE category (
   customer_id INT REFERENCES customer(id) NOT NULL,
   order_seq INT NOT NULL,
   category TEXT NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT true,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -22,6 +24,7 @@ CREATE TABLE question (
   category_id INT REFERENCES category(id) NOT NULL,
   type question_type NOT NULL, 
   question TEXT NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT true,
   default_value TEXT,
   validations TEXT
 );

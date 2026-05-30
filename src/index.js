@@ -1,9 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const userRoutes = require("./routes/users");
-const categoryRoutes = require("./routes/categories");
-const questionRoutes = require("./routes/questions");
+// const userRoutes = require("./routes/users");
+const feedbackRoutes = require("./routes/feedback.js");
+// const questionRoutes = require("./routes/questions");
 
 // Imitialize database pool
 const { postgresDb } = require('./config/postgres.js');
@@ -42,18 +42,18 @@ app.get("/health", (req, res) => {
 
 // Sample Logging
 const myLogger = (req, res, next) => {
-  console.log('Request URL:', req.originalUrl);
-  console.log('Request Type:', req.method);
+  // console.log('Request URL:', req.originalUrl);
+  // console.log('Request Type:', req.method);
   next();
 };
 
 app.use(myLogger);
 
-app.use("/api/users", userRoutes);
+// app.use("/api/users", userRoutes);
 
-app.use("/api/categories", categoryRoutes);
+app.use("/api", feedbackRoutes);
 
-app.use("/api/questions", questionRoutes);
+// app.use("/api/questions", questionRoutes);
 
 
 // ─── 404 Handler ──────────────────────────────────────────────────────────────

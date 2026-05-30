@@ -1,7 +1,8 @@
 import { postgresDb } from '../config/postgres.js'
 
-export async function getCategories() {
-  const result = await postgresDb.query(
+export async function getCategories(params) {
+  
+  var sQuery = 
     "SELECT category.id, category.order_seq, category.category, " +
       "(" +
         "SELECT JSON_AGG(questions_inner) AS questions FROM " +
@@ -15,7 +16,22 @@ export async function getCategories() {
       ") AS questions " +
     "FROM category " +
     "JOIN customer ON customer.id = category.customer_id " +
-    "WHERE customer.slug = 'cafe-nook\'"
-  )
+    "WHERE customer.slug = $1 ";
+
+  var queryParams = [params.customerSlug];
+
+  if (params?.customerActive !== undefined) {
+    sQuery = sQuery + "AND customer.active = $2 ";
+    queryParams = [...queryParams, params.customerActive];
+  }  
+
+  if (params?.categoryId !== undefined) {
+    sQuery = sQuery + "AND category.id = $3 ";
+    queryParams = [...queryParams, params.categoryId];
+  }  
+
+  // console.log(sQuery, queryParams);
+
+  const result = await postgresDb.query(sQuery , queryParams)
   return result.rows
 }
