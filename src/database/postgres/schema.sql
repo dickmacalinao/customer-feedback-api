@@ -15,11 +15,12 @@ CREATE TABLE category (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
---type column should be from type reference 
+CREATE TYPE question_type AS ENUM('text', 'textarea', 'yesNo', 'slidingRate', 'smileyRate');
+
 CREATE TABLE question (
   id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   category_id INT REFERENCES category(id) NOT NULL,
-  type TEXT NOT NULL, 
+  type question_type NOT NULL, 
   question TEXT NOT NULL,
   default_value TEXT,
   validations TEXT
