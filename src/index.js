@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 const myLogger = (req, res, next) => {
   // console.log('Request URL:', req.originalUrl);
   // console.log('Request Type:', req.method);
+  console.log('Request Header:', req.headers);
   next();
 };
 
@@ -53,6 +54,8 @@ app.get("/health", (req, res) => {
 });
 
 // app.use("/api/users", userRoutes);
+
+//TODO: Add validation that Request Header customer-slug is mandatory
 
 app.use("/api", feedbackRoutes);
 

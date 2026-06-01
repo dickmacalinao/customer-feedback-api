@@ -4,7 +4,7 @@ const { getCategories } = require( "../services/categories");
 const getAllCategories = (req, res) => {
   getCategories(
     {
-      customerSlug: req.params?.customerSlug,
+      customerSlug: req.headers["customer-slug"],
       customerActive: true,
     }
   ).then((data) => {
@@ -16,7 +16,7 @@ const getAllCategories = (req, res) => {
 const getCategoryById = (req, res) => {
   getCategories(
     {
-      customerSlug: req.params?.customerSlug,
+      customerSlug: req.headers["customer-slug"],
       customerActive: true,
       categoryId: req.params.id,
     }

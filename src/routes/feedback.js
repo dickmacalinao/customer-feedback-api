@@ -5,7 +5,7 @@ const {
   getCategoryById,
 } = require("../controllers/feedbackController");
 
-router.get("/:customerSlug/categories", getAllCategories);
-router.get("/:customerSlug/categories/:id", getCategoryById);
+router.get("/categories", getAllCategories);
+router.get("/categories/:id", getCategoryById);
 
 module.exports = router;
