@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 const myLogger = (req, res, next) => {
   // console.log('Request URL:', req.originalUrl);
   // console.log('Request Type:', req.method);
-  console.log('Request Header:', req.headers);
+  // console.log('Request Header:', req.headers);
   next();
 };
 
