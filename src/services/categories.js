@@ -1,6 +1,8 @@
 import { postgresDb } from '../config/postgres.js'
 
 export async function getCategories(params) {
+
+  var bindIndex = 1;
   
   var sQuery = 
     "SELECT category.id, category.order_seq, category.category, " +
@@ -16,21 +18,33 @@ export async function getCategories(params) {
       ") AS questions " +
     "FROM category " +
     "JOIN customer ON customer.id = category.customer_id " +
-    "WHERE customer.slug = $1 ";
+    "WHERE customer.slug = $" + (bindIndex++) + " ";
 
   var queryParams = [params.customerSlug];
 
   if (params?.customerActive !== undefined) {
-    sQuery = sQuery + "AND customer.active = $2 ";
+    sQuery = sQuery + "AND customer.active = $" + (bindIndex++) + " ";
     queryParams = [...queryParams, params.customerActive];
   }  
 
   if (params?.categoryId !== undefined) {
-    sQuery = sQuery + "AND category.id = $3 ";
+    sQuery = sQuery + "AND category.id = $" + (bindIndex++) + " ";
     queryParams = [...queryParams, params.categoryId];
-  }  
+  }
+  
+  if (params?.categoryActive !== undefined) {
+    sQuery = sQuery + "AND category.active = $" + (bindIndex++) + " ";
+    queryParams = [...queryParams, params.categoryActive];
+  }
 
   // console.log(sQuery, queryParams);
+
+  /*
+  if (params?.questionActive !== undefined) {
+    sQuery = sQuery + "AND question.active = $5 ";
+    queryParams = [...queryParams, params.questionActive];
+  }
+  */
 
   const result = await postgresDb.query(sQuery , queryParams)
   return result.rows

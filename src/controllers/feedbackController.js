@@ -6,6 +6,8 @@ const getAllCategories = (req, res) => {
     {
       customerSlug: req.headers["customer-slug"],
       customerActive: true,
+      categoryActive: true,
+      questionActive: true,
     }
   ).then((data) => {
     res.json({ success: true, count: data.length, data: data });
@@ -19,6 +21,8 @@ const getCategoryById = (req, res) => {
       customerSlug: req.headers["customer-slug"],
       customerActive: true,
       categoryId: req.params.id,
+      categoryActive: true,
+      questionActive: true,
     }
   ).then((data) => {
     if (data.length > 0) {
