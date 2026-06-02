@@ -1,11 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const {
-  getAllCategories,
-  getCategoryById,
-} = require("../controllers/feedbackController");
+const { postFeedback } = require("../controllers/feedbackController");
 
-router.get("/categories", getAllCategories);
-router.get("/categories/:id", getCategoryById);
+router.post("/feedback", postFeedback);
 
 module.exports = router;

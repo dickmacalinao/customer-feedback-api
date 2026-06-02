@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 // const userRoutes = require("./routes/users");
+const categoryRoutes = require("./routes/category.js");
 const feedbackRoutes = require("./routes/feedback.js");
 // const questionRoutes = require("./routes/questions");
 const apiDocsRouter = require("./routes/apiDocs.js");
@@ -56,6 +57,8 @@ app.get("/health", (req, res) => {
 // app.use("/api/users", userRoutes);
 
 //TODO: Add validation that Request Header customer-slug is mandatory
+
+app.use("/api", categoryRoutes);
 
 app.use("/api", feedbackRoutes);
 
