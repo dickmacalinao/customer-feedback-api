@@ -1,6 +1,11 @@
 const postFeedback = (req, res) => {
-  console.log("PostFeedback", req);
-  res.json({ success: true, data: req });
+  console.log("PostFeedback Headers", req.headers);
+  console.log("PostFeedback Body", req.body);
+
+  setTimeout(() => {
+    res.json({ success: true, data: {} });
+  }, 10000);
+  
 }
 
 module.exports = { postFeedback };

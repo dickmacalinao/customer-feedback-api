@@ -1,4 +1,4 @@
-const { getCategories } = require( "../services/categories");
+const { getCategories } = require( "../services/category");
 
 // GET /api/:customerSlug/categories
 const getAllCategories = (req, res) => {

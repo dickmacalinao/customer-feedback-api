@@ -24,31 +24,41 @@ API is now live at **http://localhost:3000**
 ```
 express-app/
 ├── src/
-│   ├── index.js                 # App entry point
-│   ├── routes/
-│   │   └── users.js             # Route definitions
-│   └── controllers/
-│       └── userController.js    # Business logic
-├── .env                         # Environment variables
-├── .env.example                 # Env template
-├── Dockerfile                   # Multi-stage Docker build
-├── docker-compose.yml           # Compose config
-└── package.json
+│   ├── config/                     # Configuration point
+│   │   └── postgres.js
+│   ├── controllers/                # Business logic 
+│   │   └── categoryController.js
+│   │   └── feedbackController.js    
+│   ├── database/                   # Database scripts 
+│   │   ├── postgres/
+│   │   │   └── data.sql
+│   │   │   └── rollback.sql
+│   │   │   └── schema.sql    
+│   ├── routes/                     # Route definitions
+│   │   └── apiDocs.js           
+│   │   └── category.js
+│   │   └── feedback.js
+│   ├── services/                   # Route definitions
+│   │   └──category.js           
+│   ├── index.js                    # App entry point
+├── .env                            # Environment variables
+├── .env.example                    # Env template
+├── Dockerfile                      # Multi-stage Docker build
+├── docker-compose.yml              # Compose config
+└── package.json                    # Library declarations
 ```
 
 ---
 
 ## 🔗 API Endpoints
 
-| Method | Endpoint         | Description       |
-|--------|------------------|-------------------|
-| GET    | /                | API info          |
-| GET    | /health          | Health check      |
-| GET    | /api/users       | List all users    |
-| GET    | /api/users/:id   | Get user by ID    |
-| POST   | /api/users       | Create a user     |
-| PUT    | /api/users/:id   | Update a user     |
-| DELETE | /api/users/:id   | Delete a user     |
+| Method | Endpoint             | Description                       |
+|--------|----------------------|-----------------------------------|
+| GET    | /health              | Health check                      |
+| GET    | /api/categories      | List all categories               |
+| GET    | /api/categories/:id  | Get category by ID                |
+| POST   | /api/feedback        | Create and post feedback          |
+| GET    | /api-docs            | List of available API endpoints   |
 
 ### Example Requests
 
@@ -95,4 +105,3 @@ In `docker-compose.yml`, change the build target:
 build:
   target: production   # was: development
 ```
-# customer-feedback-api
