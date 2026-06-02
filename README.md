@@ -63,21 +63,19 @@ express-app/
 ### Example Requests
 
 ```bash
-# Get all users
-curl http://localhost:3000/api/users
+# List of available API endpoints
+curl http://localhost:3000/api-docs
 
-# Create a user
-curl -X POST http://localhost:3000/api/users \
+# Get all categories
+curl http://localhost:3000/api/categories
+
+# Get all category by id
+curl http://localhost:3000/api/categories/1
+
+# Create a feedback
+curl -X POST http://localhost:3000/api/feedback \
   -H "Content-Type: application/json" \
-  -d '{"name": "Jane Doe", "email": "jane@example.com"}'
-
-# Update a user
-curl -X PUT http://localhost:3000/api/users/1 \
-  -H "Content-Type: application/json" \
-  -d '{"name": "Alice Updated"}'
-
-# Delete a user
-curl -X DELETE http://localhost:3000/api/users/1
+  -d '[{"qId": "1", "value": "5"}, {"qId": "2", "value": "Excellent"}]'
 ```
 
 ---
