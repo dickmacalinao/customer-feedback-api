@@ -29,7 +29,7 @@ express-app/
 │   ├── controllers/                # Business logic 
 │   │   └── categoryController.js
 │   │   └── feedbackController.js    
-│   ├── database/                   # Database scripts 
+│   ├── databases/                  # Database scripts 
 │   │   ├── postgres/
 │   │   │   └── data.sql
 │   │   │   └── rollback.sql
