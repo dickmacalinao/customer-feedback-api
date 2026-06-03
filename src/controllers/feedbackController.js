@@ -1,10 +1,22 @@
-const postFeedback = (req, res) => {
-  console.log("PostFeedback Headers", req.headers);
-  console.log("PostFeedback Body", req.body);
+const { createFeedback } = require( "../services/feedback");
 
-  setTimeout(() => {
-    res.json({ success: true, data: req.body });
-  }, 10000);
+const postFeedback = (req, res) => {
+
+  // console.log("PostFeedback Body", req.body);
+
+  let feedback = []
+  req.body?.forEach(f => {
+    feedback = [...feedback, {qId: f.qId, value: f.value}];
+  });
+
+  createFeedback(
+    {
+      customerSlug: req.headers["customer-slug"],
+      feedback,
+    }
+  ).then((result) => {
+    res.json({ success: true, data: result });
+  })
   
 }
 

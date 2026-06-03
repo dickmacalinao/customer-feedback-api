@@ -1,22 +1,26 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
+// require("dotenv").config();
+import express, { json, urlencoded } from "express";
+import cors from "cors";
 // const userRoutes = require("./routes/users");
-const categoryRoutes = require("./routes/category.js");
-const feedbackRoutes = require("./routes/feedback.js");
+import categoryRoutes from "./routes/category.js";
+import feedbackRoutes from "./routes/feedback.js";
 // const questionRoutes = require("./routes/questions");
-const apiDocsRouter = require("./routes/apiDocs.js");
+import apiDocsRouter from "./routes/apiDocs.js";
 
 // Imitialize database pool
-const { postgresDb } = require('./config/postgres.js');
+import { postgresDb } from './config/postgres.js';
+import connectDB from "./config/mongodb.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Connect to MongoDB
+await connectDB();
+
 // ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
 
 // Sample Logging
 const myLogger = (req, res, next) => {
