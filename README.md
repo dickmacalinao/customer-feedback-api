@@ -25,6 +25,7 @@ API is now live at **http://localhost:3000**
 express-app/
 ├── src/
 │   ├── config/                     # Configuration point
+│   │   └── mongodb.js
 │   │   └── postgres.js
 │   ├── controllers/                # Business logic 
 │   │   └── categoryController.js
@@ -34,12 +35,15 @@ express-app/
 │   │   │   └── data.sql
 │   │   │   └── rollback.sql
 │   │   │   └── schema.sql    
+│   ├── models/                     # Models (MongoDB data models)
+│   │   └── Feedback.js
 │   ├── routes/                     # Route definitions
 │   │   └── apiDocs.js           
 │   │   └── category.js
 │   │   └── feedback.js
-│   ├── services/                   # Route definitions
+│   ├── services/                   # Services definitions
 │   │   └──category.js           
+│   │   └──feedback.js           
 │   ├── index.js                    # App entry point
 ├── .env                            # Environment variables
 ├── .env.example                    # Env template
