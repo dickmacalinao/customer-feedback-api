@@ -1,1 +1,13 @@
-// mongodb+srv://dickmacalinao_db_user:sgwQbeDyO2oF0UgG@cluster0.eygi4g6.mongodb.net/?appName=Cluster0
+import { connect } from "mongoose";
+
+const connectDB = async () => {
+  try {
+    const conn = await connect(process.env.MONGO_URI);
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`❌ Connection Error: ${error.message}`);
+    process.exit(1); // Exit process on failure
+  }
+};
+
+export default connectDB;
