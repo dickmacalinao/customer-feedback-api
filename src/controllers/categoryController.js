@@ -11,7 +11,9 @@ const getAllCategories = (req, res) => {
     }
   ).then((data) => {
     res.json({ success: true, count: data.length, data: data });
-  })
+  }).catch((error) => {
+    res.status(500).json({ success: false, error: "Server error" });
+  });
 };
 
 // GET /api/:customerSlug/categories/:id
@@ -30,7 +32,9 @@ const getCategoryById = (req, res) => {
     } else {
       return res.status(404).json({ success: false, error: "Category not found" });
     }
-  })
+  }).catch((error) => {
+    res.status(500).json({ success: false, error: "Server error" });
+  });
 };
 
 module.exports = { getAllCategories, getCategoryById };
