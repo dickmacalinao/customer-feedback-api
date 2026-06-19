@@ -1,23 +1,18 @@
-const { createFeedback } = require( "../services/feedback");
+const { createFeedback } = require("../services/feedback");
 
-const postFeedback = (req, res) => {
-
-  // console.log("PostFeedback Body", req.body);
-
-  let feedback = []
-  req.body?.forEach(f => {
-    feedback = [...feedback, {qId: f.qId, value: f.value}];
-  });
-
-  createFeedback(
-    {
+const postFeedback = async (req, res) => {
+  try {
+    const feedback = req.body?.map(({ qId, value }) => ({ qId, value })) || [];
+    
+    const result = await createFeedback({
       customerSlug: req.headers["customer-slug"],
       feedback,
-    }
-  ).then((result) => {
+    });
+    
     res.json({ success: true, data: result });
-  })
-  
-}
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
 
 module.exports = { postFeedback };

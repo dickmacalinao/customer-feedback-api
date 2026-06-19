@@ -1,4 +1,3 @@
-// const Feedback = require("../models/Feedback");
 import Feedback from "../models/Feedback.js";
 
 export async function createFeedback(payload) {

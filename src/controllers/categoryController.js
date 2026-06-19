@@ -1,40 +1,47 @@
-const { getCategories } = require( "../services/category");
+const { getCategories } = require("../services/category");
+
+const BASE_QUERY = {
+  customerActive: true,
+  categoryActive: true,
+  questionActive: true,
+};
+
+const getCustomerSlug = (req) => req.headers["customer-slug"];
+
+const handleError = (res, error, statusCode = 500) => {
+  console.error(error);
+  res.status(statusCode).json({ success: false, error: "Server error" });
+};
 
 // GET /api/:customerSlug/categories
-const getAllCategories = (req, res) => {
-  getCategories(
-    {
-      customerSlug: req.headers["customer-slug"],
-      customerActive: true,
-      categoryActive: true,
-      questionActive: true,
-    }
-  ).then((data) => {
-    res.json({ success: true, count: data.length, data: data });
-  }).catch((error) => {
-    res.status(500).json({ success: false, error: "Server error" });
-  });
+const getAllCategories = async (req, res) => {
+  try {
+    const data = await getCategories({
+      ...BASE_QUERY,
+      customerSlug: getCustomerSlug(req),
+    });
+    res.json({ success: true, count: data.length, data });
+  } catch (error) {
+    handleError(res, error);
+  }
 };
 
 // GET /api/:customerSlug/categories/:id
-const getCategoryById = (req, res) => {
-  getCategories(
-    {
-      customerSlug: req.headers["customer-slug"],
-      customerActive: true,
+const getCategoryById = async (req, res) => {
+  try {
+    const data = await getCategories({
+      ...BASE_QUERY,
+      customerSlug: getCustomerSlug(req),
       categoryId: req.params.id,
-      categoryActive: true,
-      questionActive: true,
-    }
-  ).then((data) => {
+    });
     if (data.length > 0) {
       res.json({ success: true, data: data[0] });
     } else {
-      return res.status(404).json({ success: false, error: "Category not found" });
+      handleError(res, "Category not found", 404);
     }
-  }).catch((error) => {
-    res.status(500).json({ success: false, error: "Server error" });
-  });
+  } catch (error) {
+    handleError(res, error);
+  }
 };
 
 module.exports = { getAllCategories, getCategoryById };

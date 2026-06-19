@@ -1,51 +1,52 @@
 import { postgresDb } from '../config/postgres.js'
 
+const BASE_QUERY = `
+  SELECT 
+    category.id, 
+    category.order_seq, 
+    category.category,
+    (
+      SELECT JSON_AGG(questions_inner) AS questions FROM (
+        SELECT 
+          question.id, 
+          question.type, 
+          question.question, 
+          question.default_value,
+          string_to_array(question.validations, ',') AS validations
+        FROM question
+        WHERE question.category_id = category.id
+        ORDER BY question.id
+      ) AS questions_inner
+    ) AS questions
+  FROM category
+  JOIN customer ON customer.id = category.customer_id
+  WHERE customer.slug = $1
+`
+
 export async function getCategories(params) {
-
-  var bindIndex = 1;
-  
-  var sQuery = 
-    "SELECT category.id, category.order_seq, category.category, " +
-      "(" +
-        "SELECT JSON_AGG(questions_inner) AS questions FROM " +
-        "( " +
-          "SELECT question.id, question.type, question.question, question.default_value, " + 
-            "string_to_array(question.validations, ',') as validations " +
-          "FROM question " +
-          "WHERE question.category_id = category.id " +
-          "ORDER BY question.id " +
-        ") AS questions_inner " +
-      ") AS questions " +
-    "FROM category " +
-    "JOIN customer ON customer.id = category.customer_id " +
-    "WHERE customer.slug = $" + (bindIndex++) + " ";
-
-  var queryParams = [params.customerSlug];
+  const queryParams = [params.customerSlug]
+  const conditions = []
+  let bindIndex = 2
 
   if (params?.customerActive !== undefined) {
-    sQuery = sQuery + "AND customer.active = $" + (bindIndex++) + " ";
-    queryParams = [...queryParams, params.customerActive];
-  }  
+    conditions.push(`customer.active = $${bindIndex++}`)
+    queryParams.push(params.customerActive)
+  }
 
   if (params?.categoryId !== undefined) {
-    sQuery = sQuery + "AND category.id = $" + (bindIndex++) + " ";
-    queryParams = [...queryParams, params.categoryId];
+    conditions.push(`category.id = $${bindIndex++}`)
+    queryParams.push(params.categoryId)
   }
-  
+
   if (params?.categoryActive !== undefined) {
-    sQuery = sQuery + "AND category.active = $" + (bindIndex++) + " ";
-    queryParams = [...queryParams, params.categoryActive];
+    conditions.push(`category.active = $${bindIndex++}`)
+    queryParams.push(params.categoryActive)
   }
 
-  // console.log(sQuery, queryParams);
+  const query = conditions.length > 0 
+    ? `${BASE_QUERY} AND ${conditions.join(' AND ')}` 
+    : BASE_QUERY
 
-  /*
-  if (params?.questionActive !== undefined) {
-    sQuery = sQuery + "AND question.active = $5 ";
-    queryParams = [...queryParams, params.questionActive];
-  }
-  */
-
-  const result = await postgresDb.query(sQuery , queryParams)
+  const result = await postgresDb.query(query, queryParams)
   return result.rows
 }
